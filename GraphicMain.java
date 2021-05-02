@@ -34,7 +34,7 @@ public class GraphicMain implements Runnable {
         
         // Instructions
         JOptionPane.showMessageDialog(frame,
-                "Hi! Welcome to our App: Perfect Day!\n"
+                "Hi! Welcome to our App: Perfect Day in NYC\n"
                 + "Let us first ask some of your preferences!",
                 "Instructions", JOptionPane.INFORMATION_MESSAGE);
         
@@ -87,15 +87,52 @@ public class GraphicMain implements Runnable {
             }
         });
         activities_panel.add(arcade);
-        //First Activity Category
-        final JButton Karaoke = new JButton("Karaoke");
-        arcade.addActionListener(new ActionListener() {
+        //Second Activity Category
+        final JButton karaoke = new JButton("Karaoke");
+        karaoke.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.setUserActivity(1);
-                arcade.setEnabled(false);
+                karaoke.setEnabled(false);
             }
         });
-        activities_panel.add(arcade);
+        activities_panel.add(karaoke);
+        //Budget Panel
+        final JPanel text_panel = new JPanel();
+        frame.add(text_panel);
+        final JLabel labelThree = new JLabel("Please set your budget: ");
+        text_panel.add(labelThree);
+        JTextField textField = new JTextField("", 20);
+        text_panel.add(textField);
+        final JPanel last_panel = new JPanel();
+        frame.add(last_panel);
+        final JButton submit = new JButton("Submit");
+        submit.setEnabled(false);
+     // adds event listener which listens to Enter key event
+        textField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(frame, 
+                        "You entered text:\n" + textField.getText());
+            }
+        });
+        // adds key event listener
+        textField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent event) {
+                String content = textField.getText();
+                if (!content.equals("")) {
+                    submit.setEnabled(true);
+                } else {
+                    submit.setEnabled(false);
+                }
+            }           
+        });
+        
+        submit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.calculate();
+            }
+        });
+        last_panel.add(submit);
         // Note here that when we add an action listener to the reset button, we define
         // it as an
         // anonymous inner class that is an instance of ActionListener with its
@@ -119,6 +156,8 @@ public class GraphicMain implements Runnable {
 //        });
 //        control_panel.add(ai);
 
+        //Submission Button
+
         // Put the frame on the screen
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,6 +172,9 @@ public class GraphicMain implements Runnable {
      * this in your final submission.
      */
     public static void main(String[] args) {
+//        Backend engine = new Backend();
+//        Double[] coo = engine.getCoordinates("261J Signs Rd, 10314 NY");
+//        System.out.println(coo[0]);
         SwingUtilities.invokeLater(new GraphicMain());
     }
 }

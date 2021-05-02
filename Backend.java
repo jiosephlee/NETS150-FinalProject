@@ -1,6 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import java.util.regex.*;
 import java.util.ArrayList;
 
 /**
@@ -43,5 +49,39 @@ public class Backend extends JPanel{
     
     public void setUserBudget (int budget) {
         userBudget = budget;
+    }
+    
+    public void calculate() {
+        
+    }
+    
+    public Double[] getCoordinates(String address) {
+        String URL = "http://mapquestapi.com/geocoding/v1/address?"
+                + "key=OeyNs9RlSfU1pePd8vJEfAA3mJMSTvU9&location=";
+        try {
+            Document doc = Jsoup.connect(URL + address + "&outFormat=xml").get();
+            String text = doc.toString();
+            String regexOne = "<lat>\n(.*)";
+            String regexTwo = "<lng>\n(.*)";
+            Pattern patternOne = Pattern.compile(regexOne);
+            Pattern patternTwo = Pattern.compile(regexTwo);
+            Matcher matchOne = patternOne.matcher(text);
+            String lat = "";
+            if (matchOne.find()) {
+                lat = matchOne.group(1);
+            }
+            Matcher matchTwo = patternTwo.matcher(text);
+            String lon = "";
+            if (matchTwo.find()) {
+                lon = matchTwo.group(1);
+            }
+            Double[] output = {Double.parseDouble(lat),Double.parseDouble(lon)};
+            return output;
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("ERROR");
+            Double[] output = {-1.0,-1.0};
+            return output;
+        }
     }
 }
