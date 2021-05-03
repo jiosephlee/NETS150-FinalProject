@@ -27,7 +27,7 @@ public class GraphicMain implements Runnable {
         // NOTE: the 'final' keyword denotes immutability even for local variables.
 
         // Top-level frame in which game components live
-        final JFrame frame = new JFrame("TicTacToe");
+        final JFrame frame = new JFrame("Nets Eats!");
         frame.setLocation(300, 300);
         BoxLayout boxlayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(boxlayout);

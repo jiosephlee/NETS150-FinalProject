@@ -4,8 +4,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import com.sun.jdi.Location;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import java.util.regex.*;
 import java.util.ArrayList;
 
@@ -33,10 +37,17 @@ public class Backend extends JPanel{
     private ArrayList<Integer> userFood;
     private int userBudget;
     private ArrayList<Integer> userActivity;
+
+    private ArrayList<Location> finalLocations;
+
+    // web scraping tools
+    private String baseURL; 
+    private Document currentDoc;
     
     public Backend (){
         userFood = new ArrayList<Integer>();
         userActivity = new ArrayList<Integer>();
+        finalLocations = new ArrayList<Location>();
     }
     
     public void setUserFood (int foodCategory) {
@@ -52,7 +63,69 @@ public class Backend extends JPanel{
     }
     
     public void calculate() {
-        
+
+        ArrayList<String> foodAddresses = getFoodAddresses();
+        // foodAddresses.addAll(getActivityAddresses());        
+
+        // for (String address : foodAddresses) {
+        //     Double[] coordinateArr = getCoordinates(address);
+        //     Location loc = new Location(coordinateArr[1], coordinateArr[0], address);
+        //     finalLocations.add(loc);
+        // }
+
+    }
+
+    /**
+     * Assumptions:
+     * @return An ArrayList with the top two food addresses based on preference
+     */
+    public ArrayList<String> getFoodAddresses() {
+
+        ArrayList<String> foodAddresses = new ArrayList<String>();
+
+        ArrayList<String> foodPreferences = new ArrayList<String>();
+        for (int i : userFood) {
+            foodPreferences.add(FOOD_CATEGORIES[i - 1]);
+            System.out.println(FOOD_CATEGORIES[i - 1]);
+        }
+
+        for (String foodPreference : foodPreferences) {
+
+            // this.baseURL = "https://www.yelp.com/search?find_desc=" + foodPreference + "&find_near=new-york-city-new-york-14&ns=1";
+            this.baseURL = "https://www.yelp.com/search?find_desc=thai&find_near=new-york-city-new-york-14&ns=1";
+            try {
+                this.currentDoc = Jsoup.connect(this.baseURL).get();
+            } catch (IOException e) {
+                System.out.println("Could not get yelp website for " + foodPreference + " query.");
+            }
+    
+            Element address1 = currentDoc.select("address").get(1);
+            // Element section = currentDoc.select("div. container__09f24__21w3G hoverable__09f24__2nTf3 margin-t3__09f24__5bM2Z margin-b3__09f24__1DQ9x padding-t3__09f24__-R_5x padding-r3__09f24__1pBFG padding-b3__09f24__1vW6j padding-l3__09f24__1yCJf border--top__09f24__8W8ca border--right__09f24__1u7Gt border--bottom__09f24__xdij8 border--left__09f24__rwKIa border-color--default__09f24__1eOdn").first();
+            System.out.println(address1.text());
+
+            Element address2 = address1.nextElementSibling();
+            System.out.println(address2.text());
+
+            String str1 = address1 + ", " + address2;
+
+            Double[] test = getCoordinates(str1);
+            System.out.println(test[0]);
+            System.out.println(test[1]);
+
+            Element address3 = currentDoc.select("address").get(2);
+            System.out.println(address3.text());
+
+            Element address4 = address3.nextElementSibling();
+            System.out.println(address4.text());
+
+        }
+
+
+        return foodAddresses;
+    }
+
+    public ArrayList<String> getActivityAddresses() {
+        return null;
     }
     
     public Double[] getCoordinates(String address) {
