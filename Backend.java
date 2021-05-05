@@ -62,18 +62,14 @@ public class Backend extends JPanel{
         ArrayList<String> userPreferences = new ArrayList<String>();
         for (int i : userFood) {
             userPreferences.add(FOOD_CATEGORIES[i]);
-//            System.out.println(FOOD_CATEGORIES[i]);
         }
         for (int i : userActivity) {
             userPreferences.add(ACTIVITY_CATEGORIES[i]);
-//            System.out.println(ACTIVITY_CATEGORIES[i]);
         }
 
         for (String preference : userPreferences) {
 
             System.out.println(preference);
-
-            // https://www.yelp.com/search?find_desc=Mexican&find_near=new-york-city-new-york-14
 
             this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "%find__near=new-york-city-new-york-14";
             try {
