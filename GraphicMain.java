@@ -9,7 +9,7 @@ public class GraphicMain implements Runnable {
     boolean activitySelected;
 
     public void run() {
-        final JFrame frame = new JFrame("Perfect Night in NYC");
+        final JFrame frame = new JFrame("Nets Eat!");
         frame.setLocation(300, 300);
         BoxLayout boxlayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(boxlayout);
