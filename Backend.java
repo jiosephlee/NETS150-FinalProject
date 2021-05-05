@@ -28,6 +28,7 @@ public class Backend extends JPanel{
     public Backend (){
         userFood = new ArrayList<Integer>();
         userActivity = new ArrayList<Integer>();
+        locations = new ArrayList<Location>();
     }
 
     public void setUserFood (int foodCategory) {
@@ -39,7 +40,10 @@ public class Backend extends JPanel{
     }
 
     public void calculate() {
+        this.locations.clear();
         this.locations = getLocations();
+        this.userFood.clear();
+        this.userActivity.clear();
     }
 
     /**
@@ -68,10 +72,8 @@ public class Backend extends JPanel{
         }
 
         for (String preference : userPreferences) {
-
-            System.out.println(preference);
-
-            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "%find__near=new-york-city-new-york-14";
+            
+            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "&find_loc=New%20York%2C%20NY%2010035";
             try {
                 this.currentDoc = Jsoup.connect(this.baseURL).get();
             } catch (IOException e) {
