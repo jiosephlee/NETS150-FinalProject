@@ -159,18 +159,18 @@ public class GraphicMain implements Runnable {
         });
         activities_panel.add(karaoke);
         //Third Activity Category
-        final JButton takingPhotos = new JButton("Billiards");
-        takingPhotos.addActionListener(new ActionListener() {
+        final JButton billiards = new JButton("Billiards");
+        billiards.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.setUserActivity(2);
                 activitySelected = true;
                 if (foodSelected) {
                     submit.setEnabled(true);
                 }
-                takingPhotos.setEnabled(false);
+                billiards.setEnabled(false);
             }
         });
-        activities_panel.add(takingPhotos);
+        activities_panel.add(billiards);
 
         //Fourth Activity Category
         final JButton bowling = new JButton("Bowling");
@@ -190,6 +190,19 @@ public class GraphicMain implements Runnable {
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.calculate();
+                foodSelected = false;
+                activitySelected = false;
+                submit.setEnabled(false);
+                arcade.setEnabled(true);
+                thai.setEnabled(true);
+                mexican.setEnabled(true);
+                italian.setEnabled(true);
+                korean.setEnabled(true);
+                chinese.setEnabled(true);
+                american.setEnabled(true);
+                karaoke.setEnabled(true);
+                billiards.setEnabled(true);
+                bowling.setEnabled(true);
                 JOptionPane.showMessageDialog(frame,
                         engine.getItinerary(), "Itinerary", JOptionPane.INFORMATION_MESSAGE);
 
