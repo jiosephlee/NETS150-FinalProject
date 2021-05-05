@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Backend extends JPanel{
 
     private static final String[] FOOD_CATEGORIES = {"Thai", "Mexican", "Italian", "Korean", "Chinese", "American"};
-    private static final String[] ACTIVITY_CATEGORIES = {"Arcade", "Karaoke", "Taking Photos", "Bowling"};
+    private static final String[] ACTIVITY_CATEGORIES = {"Arcade", "Karaoke", "Billiards", "Bowling"};
     private ArrayList<Integer> userFood;
     private ArrayList<Integer> userActivity;
 
@@ -59,16 +59,16 @@ public class Backend extends JPanel{
     }
 
     /**
-     * Assumptions: 
+     * Assumptions:
      *      We assume that Yelp won't change the layout of their HTML tags in future website updates. Specifically:
-     * 
+     *
      *      The second address tag will always contain the street address of the top Yelp recommendation
      *      The third address tag will always contain the street address of the second best Yelp recommendation
      *      The sibling element of the address tag will always contain the area/county name
      *      The name of the venue will always be in the previous sibling element of the grand parent of the address tag
-     *      
+     *
      *      We will also only consider locations whose address is in an address HTML tag
-     * 
+     *
      * @return An ArrayList with the top two food addresses based on preference
      */
     public ArrayList<Location> getLocations() {

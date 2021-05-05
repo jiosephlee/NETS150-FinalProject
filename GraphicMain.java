@@ -159,7 +159,7 @@ public class GraphicMain implements Runnable {
         });
         activities_panel.add(karaoke);
         //Third Activity Category
-        final JButton takingPhotos = new JButton("Taking Photos");
+        final JButton takingPhotos = new JButton("Billiards");
         takingPhotos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.setUserActivity(2);
