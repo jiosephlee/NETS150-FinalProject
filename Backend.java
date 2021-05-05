@@ -197,7 +197,7 @@ public class Backend extends JPanel{
         }
         ArrayList<Integer> dijkOutput = dijkstra(g);
         for (Integer i : dijkOutput) {
-            output.add(locations.get(i).getActivityName());
+            output.add(locations.get(i).getName());
         }
         return output;
     }

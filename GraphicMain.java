@@ -209,6 +209,12 @@ public class GraphicMain implements Runnable {
         });
         activities_panel.add(bowling);
 
+        submit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.calculate();
+                System.out.println(engine.getItinerary());
+            }
+        });
         frame.add(last_panel);
 
         // Put the frame on the screen

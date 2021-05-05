@@ -28,7 +28,9 @@ Categories:
 
 	2. Document Search (aka Information Retrieval): We used JSoup to scrape Yelp in order to
 	retrieve the addresses, latitude/longitude coordinates, and names of the top recommended
-	venues on Yelp.
+	venues on Yelp. Upon scraping, we create an ArrayList of Location objects with these properties to be used 
+	application of Dijkstra's Algorithm. 
+	
 	Assumptions: We assume that Yelp won't change the layout of their HTML tags in future website
 	updates. Specifically, we assume that the second address tag will always contain the street
 	address of the top Yelp recommendation; the third address tag will always contain the street
