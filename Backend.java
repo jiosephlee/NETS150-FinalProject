@@ -55,16 +55,31 @@ public class Backend extends JPanel{
 
         this.locations = getLocations();
 
+        // debugging
         for (Location l : locations) {
-            System.out.print(l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = " + l.getLongitude() + "\n");
+            String isFood = "";
+            if (l.isFood()) {
+                isFood = " is food ";
+            } else {
+                isFood = "is activity";
+            }
+
+            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood + l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = " + l.getLongitude() + "\n");
         }
 
     }
 
     /**
-     * Assumptions:
-     *      The second address tag will always contain the address of the top Yelp recommendation
-     *      Only consider locations whose address is in an address html tag
+     * Assumptions: 
+     *      We assume that Yelp won't change the layout of their HTML tags in future website updates. Specifically:
+     * 
+     *      The second address tag will always contain the street address of the top Yelp recommendation
+     *      The third address tag will always contain the street address of the second best Yelp recommendation
+     *      The sibling element of the address tag willalways contain the area/county name
+     *      The name of the venue will always be in previous sibling of the grand parent of the address tag
+     *      
+     *      We will also only consider locations whose address is in an address HTML tag
+     * 
      * @return An ArrayList with the top two food addresses based on preference
      */
     public ArrayList<Location> getLocations() {
@@ -90,10 +105,24 @@ public class Backend extends JPanel{
                 System.out.println("Could not get yelp website for " + preference + " query.");
             }
 
+            boolean isFood = false;
+
+            // check if this preference is a food preference:
+            for (String s : FOOD_CATEGORIES) {
+                if (preference.equals(s)) {
+                    isFood = true;
+                }
+            }
+
             // second occurence of address tag contains the street name of the first recommendation
             Element address1 = currentDoc.select("address").get(1);
             // neighbor of address tag contains the area name
             Element address2 = address1.nextElementSibling();
+
+            // assumption — the name of the venue is in the neighboring div tag to the address tag's grandparent element
+            Element parentDiv1 = address1.parent();
+            Element parentDiv2 = parentDiv1.parent();
+            Element firstVenueLocation = parentDiv2.previousElementSibling();
 
             String firstAddress = address1.text() + ", " + address2.text();
 
@@ -101,7 +130,7 @@ public class Backend extends JPanel{
             Double[] firstCoordinate = getCoordinates(firstAddress);
 
             // create new location object based on longitude, latitude, and address name
-            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], firstAddress);
+            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], firstAddress, firstVenueLocation.text(), isFood, preference);
 
 
             // third occurrence of address tag contians the street name of the second recommendation
@@ -109,10 +138,14 @@ public class Backend extends JPanel{
             // neighbor of address tag contains area name
             Element address4 = address3.nextElementSibling();
 
+            Element parentDiv3 = address3.parent();
+            Element parentDiv4 = parentDiv3.parent();
+            Element secondVenueLocation = parentDiv4.previousElementSibling();
+
             String secondAddress = address3.text() + ", " + address4.text();
             Double[] secondCoordinate = getCoordinates(secondAddress);
 
-            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], secondAddress);
+            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], secondAddress, secondVenueLocation.text(), isFood, preference);
 
             l.add(firstLocation);
             l.add(secondLocation);
