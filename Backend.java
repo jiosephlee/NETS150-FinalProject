@@ -208,30 +208,65 @@ public class Backend extends JPanel{
      * @param graph
      */
     public ArrayList<Integer> dijkstra(Graph g) {
+        boolean prevFood = false;
         ArrayList<Integer> output = new ArrayList<>();
         int gSize = locations.size();
         Integer[] dist = new Integer[gSize];
-        PriorityQueue<Integer, Integer> q = new PriorityQueue<>();
+        PriorityQueue<Integer, Integer> f = new PriorityQueue<>();
+        PriorityQueue<Integer, Integer> a = new PriorityQueue<>();
 
         for (int i = 0; i < gSize; i++) {
             dist[i] = Integer.MAX_VALUE;
-            q.add(dist[i], i);
+            if (locations.get(i).isFood()) {
+                f.add(dist[i], i);
+            } else {
+                a.add(dist[i], i);
+            }
         }
 
         dist[0] = 0;
-        q.decreaseKey(0, 0);
-        output.add(0);
 
-        while (!q.isEmpty()) {
-            int u = q.extractMin().value;
-            output.add(u);
-            for (Integer v : g.outNeighbors(u)) {
-                if (dist[v] > (dist[u] + g.getWeight(u, v)) && dist[u] != Integer.MAX_VALUE ) {
-                    dist[v] = dist[u] + g.getWeight(u, v);
-                    q.decreaseKey(v, dist[v]);
+        if (locations.get(0).isFood()) {
+            f.decreaseKey(0, 0);
+            prevFood = true;
+        } else {
+            a.decreaseKey(0, 0);
+            prevFood = false;
+        }
+
+        while (output.size() < 4) {
+            if (prevFood) {
+                prevFood = !prevFood;
+                int u = f.extractMin().value;
+                output.add(u);
+                for (Integer v : g.outNeighbors(u)) {
+                    if (dist[v] > (dist[u] + g.getWeight(u, v))) {
+                        dist[v] = dist[u] + g.getWeight(u, v);
+                        if (locations.get(v).isFood()) {
+                            f.decreaseKey(v, dist[v]);
+                        } else {
+                            a.decreaseKey(v, dist[v] );
+                        }
+                    }
+                }
+            }
+            else {
+                prevFood = !prevFood;
+                int u = a.extractMin().value;
+                output.add(u);
+                for (Integer v : g.outNeighbors(u)) {
+                    if (dist[v] > (dist[u] + g.getWeight(u, v))) {
+                        dist[v] = dist[u] + g.getWeight(u, v);
+                        if (locations.get(v).isFood()) {
+                            f.decreaseKey(v, dist[v]);
+                        } else {
+                            a.decreaseKey(v, dist[v] );
+                        }
+                    }
                 }
             }
         }
+
         return output;
     }
 
