@@ -1,2 +1,0 @@
-# NETS150-FinalProject
-
