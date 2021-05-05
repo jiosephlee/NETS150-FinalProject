@@ -25,6 +25,16 @@ public class Graph {
     }
 
     /**
+     * Determines if there's an directed edge from u to v.
+     */
+    public boolean hasEdge(int u, int v) {
+        if (Math.max(u, v) >= graphArray.size() || Math.min(u, v) < 0) {
+            throw new IllegalArgumentException();
+        }
+        return (graphArray.get(u).containsKey(v));
+    }
+
+    /**
      * Returns weight of the edge
      */
     public int getWeight(int u, int v) {

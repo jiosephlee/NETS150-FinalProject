@@ -237,7 +237,7 @@ public class Backend extends JPanel{
 
     /**
      * Returns the distance between two coordinates by using the haversine formula
-     * which takes into account the sphreical nature of the earth. This allows for a more
+     * which takes into account the spherical nature of the earth. This allows for a more
      * accurate distance, even at small distances. The haversine formula is 2 * radius * arcsine
      * of haversine function.
      * We make the assumption that travel distance in general is correlated to absolute distance.
