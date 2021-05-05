@@ -187,6 +187,7 @@ public class GraphicMain implements Runnable {
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.calculate();
+                System.out.println(engine.getItinerary());
             }
         });
         last_panel.add(submit);
