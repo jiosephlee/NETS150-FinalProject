@@ -5,12 +5,7 @@ public class Graph {
     ArrayList<HashMap<Integer, Integer>> graphArray = new ArrayList<HashMap<Integer, Integer>>();
 
     /**
-     * Initializes a graph of size {@code n}. All valid vertices in this graph thus have integer
-     * indices in the half-open range {@code [0, n)}, n > 0.
-     *
-     * @param n the number of vertices in the graph
-     * @throws IllegalArgumentException if {@code n} is zero or negative
-     * @implSpec This method should run in expected O(n) time
+     * Initializes a graph of size n
      */
     public Graph(int n) {
         if (n <= 0) {
@@ -24,27 +19,13 @@ public class Graph {
 
     /**
      * Returns the number of vertices in the graph.
-     * <p/>
-     * Do NOT modify this method header.
-     *
-     * @return the number of vertices in the graph
-     * @implSpec This method should run in expected O(1) time.
      */
     public int getSize() {
         return graphArray.size();
     }
 
     /**
-     * Returns the weight of an the directed edge {@code u-v}.
-     * <p/>
-     * Do NOT modify this method header.
-     *
-     * @param u source vertex
-     * @param v target vertex
-     * @return the edge weight of {@code u-v}
-     * @throws NoSuchElementException   if the {@code u-v} edge does not exist
-     * @throws IllegalArgumentException if a specified vertex does not exist
-     * @implSpec This method should run in expected O(1) time.
+     * Returns weight of the edge
      */
     public int getWeight(int u, int v) {
         if (!hasEdge(u, v)) {
@@ -54,18 +35,7 @@ public class Graph {
     }
 
     /**
-     * Creates an edge from {@code u} to {@code v} if it does not already exist. A call to this
-     * method should <em>not</em> modify the edge weight if the {@code u-v} edge already exists.
-     * <p/>
-     * Do NOT modify this method header.
-     *
-     * @param u      the source vertex to connect
-     * @param v      the target vertex to connect
-     * @param weight the edge weight
-     * @return {@code true} if the graph changed as a result of this call, false otherwise (i.e., if
-     * the edge is already present)
-     * @throws IllegalArgumentException if a specified vertex does not exist or if u == v
-     * @implSpec This method should run in expected O(1) time
+     * Adds an edge between two vertices with a weight
      */
     public boolean addEdge(int u, int v, int weight) {
         if (u == v || Math.max(u, v) >= graphArray.size() || Math.min(u, v) < 0) {
@@ -81,14 +51,6 @@ public class Graph {
 
     /**
      * Returns the out-neighbors of the specified vertex.
-     * <p/>
-     * Do NOT modify this method header.
-     *
-     * @param v the vertex
-     * @return all out neighbors of the specified vertex or an empty set if there are no out
-     * neighbors
-     * @throws IllegalArgumentException if the specified vertex does not exist
-     * @implSpec This method should run in expected O(outdeg(v)) time.
      */
     public Set<Integer> outNeighbors(int v) {
         if (v >= graphArray.size() || v < 0) {

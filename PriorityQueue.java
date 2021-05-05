@@ -1,13 +1,9 @@
 import java.util.*;
 
 /**
- * @param <V>   {@inheritDoc}
- * @param <Key> {@inheritDoc}
+ * Priority queue implementation based on CIS 121 homework.
  */
 public class PriorityQueue<Key extends Comparable<Key>, V> implements BinaryMinHeap<Key, V> {
-    /**
-     * {@inheritDoc}
-     */
 
     ArrayList<BinaryMinHeap.Entry<Key, V>> minHeap = new ArrayList<BinaryMinHeap.Entry<Key, V>>();
     HashMap<V, Integer> hm = new HashMap<V, Integer>();
@@ -105,41 +101,8 @@ public class PriorityQueue<Key extends Comparable<Key>, V> implements BinaryMinH
                 current = parent;
             }
         }
-        // progress the indices by 1
-        // while current > 0
-        // calculate the parent
-        // if statement to see if parent is less than equal to child
-        // if so, break
     }
-/*
- *while (hm.get(value) > 0) {
-            int ind = hm.get(value);
-            if (ind % 2 == 0) {
-                if (minHeap.get(hm.get(value) / 2).key.compareTo(minHeap.get(hm.get(value)).key) > 0) {
-                    break;
-                }
-                BinaryMinHeap.Entry<Key, V> temp = new BinaryMinHeap.Entry<Key, V>(minHeap.get(ind /
-                        2).key,
-                        minHeap.get(ind / 2).value);
-                hm.put(minHeap.get(ind - 1).value, ((ind -1 ) / 2));
-                hm.put(minHeap.get((ind -1 )/ 2).value, (ind -1 ));
-                minHeap.set((ind -1 ) / 2, minHeap.get((ind -1 )));
-                minHeap.set((ind -1 ), temp);
-            }
-            else {
-                if (minHeap.get(hm.get(value) / 2).key.compareTo(minHeap.get(hm.get(value)).key) > 0) {
-                    break;
-                }
-                BinaryMinHeap.Entry<Key, V> temp = new BinaryMinHeap.Entry<Key, V>(minHeap.get(ind /
-                        2).key,
-                        minHeap.get(ind / 2).value);
-                hm.put(minHeap.get(ind).value, (ind / 2));
-                hm.put(minHeap.get(ind / 2).value, ind);
-                minHeap.set(ind / 2, minHeap.get(ind));
-                minHeap.set(ind, temp);
-            }
-        }
- */
+
     /**
      * {@inheritDoc}
      */

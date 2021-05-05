@@ -2,10 +2,10 @@ import java.util.Set;
 import java.util.NoSuchElementException;
 
 /**
+ * BinaryMinHeap Abstract Class as per that provided in CIS 121
  * An abstract class for a binary min-heap in Java.
  * Elements added to the min-heap are given an associated key used
  * to determine its priority. Keys do not have to be distinct.
- * Your task will be to implement this abstract class in BinaryMinHeapImpl.java
  * <p>
  * Your constructor should not take in any arguments, and it should initialize an
  * empty heap. You do NOT have to implement build-heap, instead building a heap
