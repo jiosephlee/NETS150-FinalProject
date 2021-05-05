@@ -72,8 +72,8 @@ public class Backend extends JPanel{
         }
 
         for (String preference : userPreferences) {
-            
-            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "&find_loc=New%20York%2C%20NY%2010035";
+
+            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "&find_loc=New%20York%2C%20NY%20";
             try {
                 this.currentDoc = Jsoup.connect(this.baseURL).get();
             } catch (IOException e) {
@@ -106,7 +106,7 @@ public class Backend extends JPanel{
             Double[] firstCoordinate = getCoordinates(firstAddress);
 
             // create new location object based on longitude, latitude, and address name
-            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], 
+            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0],
             firstAddress, firstVenueName, isFood, preference);
 
 
@@ -123,7 +123,7 @@ public class Backend extends JPanel{
             String secondAddress = address3.text() + ", " + address4.text();
             Double[] secondCoordinate = getCoordinates(secondAddress);
 
-            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], 
+            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0],
             secondAddress, secondVenueName, isFood, preference);
 
             l.add(firstLocation);
@@ -137,7 +137,7 @@ public class Backend extends JPanel{
 
     /**
      * This method uses the MapQuest API to take in an address and outputs a Double[] containing two elements:
-     * the first element is the latitude and the second element is the longitude. 
+     * the first element is the latitude and the second element is the longitude.
      * @param address
      * @return Double[] with the latitude and longitude coordinates
      */
