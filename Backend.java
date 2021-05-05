@@ -42,19 +42,19 @@ public class Backend extends JPanel{
 
         this.locations = getLocations();
 
-        // debugging
-        for (Location l : locations) {
-            String isFood = "";
-            if (l.isFood()) {
-                isFood = " is food ";
-            } else {
-                isFood = "is activity";
-            }
-
-            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
-                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
-                    + l.getLongitude() + "\n");
-        }
+//        // debugging
+//        for (Location l : locations) {
+//            String isFood = "";
+//            if (l.isFood()) {
+//                isFood = " is food ";
+//            } else {
+//                isFood = "is activity";
+//            }
+//
+//            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
+//                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
+//                    + l.getLongitude() + "\n");
+//        }
 
     }
 
@@ -78,11 +78,11 @@ public class Backend extends JPanel{
         ArrayList<String> userPreferences = new ArrayList<String>();
         for (int i : userFood) {
             userPreferences.add(FOOD_CATEGORIES[i]);
-            System.out.println(FOOD_CATEGORIES[i]);
+//            System.out.println(FOOD_CATEGORIES[i]);
         }
         for (int i : userActivity) {
             userPreferences.add(ACTIVITY_CATEGORIES[i]);
-            System.out.println(ACTIVITY_CATEGORIES[i]);
+//            System.out.println(ACTIVITY_CATEGORIES[i]);
         }
 
         for (String preference : userPreferences) {
@@ -184,7 +184,7 @@ public class Backend extends JPanel{
      * such that only food and activities are neighbors. Then, it runs Dijkstra's algorithm
      * to find the shortest itinerary.
      */
-    public ArrayList<String> getItinerary() {
+    public String getItinerary() {
         ArrayList<String> output = new ArrayList<>();
         int graphSize = locations.size();
         Graph g = new Graph(graphSize);
@@ -199,12 +199,14 @@ public class Backend extends JPanel{
         for (Integer i : dijkOutput) {
             output.add(locations.get(i).getName());
         }
-        return output;
+        return ("Here's your optimal route for New York: \n First, you'll go to " +
+                output.get(0) + "\n Then, you'll go to " + output.get(1) + "\n After, head on " +
+                "over to " + output.get(2) + "\n And, end your night at " + output.get(3));
     }
 
 
     /**
-     * Takes in a graph and applies Dijkstra's algorithm.
+     * Takes in a graph and applies Dijkstra's algorithm with alternating food and activity.
      * @param graph
      */
     public ArrayList<Integer> dijkstra(Graph g) {
