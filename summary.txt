@@ -6,4 +6,11 @@ Project Description: Our program will generate an itinerary for users looking to
 
 Categories: 
 	1. Graph and graph algorithms: [Scott]
-	2. Document Search (aka Information Retrieval): We used JSoup to scrape Yelp in order to retrieve the addresses of the 
+
+	2. Document Search (aka Information Retrieval): We used JSoup to scrape Yelp in order to retrieve the addresses, latitude/longitude coordinates, and names of the top recommended venues on Yelp. 
+	Assumptions: We assume that Yelp won't change the layout of their HTML tags in future website updates. Specifically, we assume that the second address tag will always contain the street address of the top Yelp recommendation; the third address tag will always contain the street address of the second best Yelp recommendation; the sibling element of the address tag will always contain the area/county name; the name of the venue will always be in the previous sibling element of the grand parent of the address tag. 
+
+Work Breakdown: 
+- Scott: Graph Algorithms and Implementing Dijkstra's 
+- Joseph: GUI and getting the coordinates, API Integration
+- Daniel: Jsoup to scrape Yelp for relevant information

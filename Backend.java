@@ -75,8 +75,8 @@ public class Backend extends JPanel{
      * 
      *      The second address tag will always contain the street address of the top Yelp recommendation
      *      The third address tag will always contain the street address of the second best Yelp recommendation
-     *      The sibling element of the address tag willalways contain the area/county name
-     *      The name of the venue will always be in previous sibling of the grand parent of the address tag
+     *      The sibling element of the address tag will always contain the area/county name
+     *      The name of the venue will always be in the previous sibling element of the grand parent of the address tag
      *      
      *      We will also only consider locations whose address is in an address HTML tag
      * 
