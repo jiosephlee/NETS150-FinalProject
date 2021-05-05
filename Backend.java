@@ -9,20 +9,7 @@ import java.util.regex.*;
 import java.util.ArrayList;
 
 /**
- * This class instantiates a ConnectFive object, which is the model for the
- * game. As the user clicks the game board, the model is updated. Whenever the
- * model is updated, the game board repaints itself and updates its status
- * JLabel to reflect the current state of the model.
- *
- * This game adheres to a Model-View-Controller design framework. This framework
- * is very effective for turn-based games. We STRONGLY recommend you review
- * these lecture slides, starting at slide 8, for more details on
- * Model-View-Controller:
- * https://www.seas.upenn.edu/~cis120/current/files/slides/lec37.pdf
- *
- * In a Model-View-Controller framework, GameBoard stores the model as a field
- * and acts as both the controller (with a MouseListener) and the view (with its
- * paintComponent method and the status JLabel).
+ * Backend code for the GUI.
  */
 @SuppressWarnings("serial")
 public class Backend extends JPanel{
@@ -188,5 +175,55 @@ public class Backend extends JPanel{
             Double[] output = {-1.0,-1.0};
             return output;
         }
+    }
+
+    /**
+     * Creates the itinerary. It iterates through the food and activity, adding them to a graph
+     * such that only food and activities are neighbors. Then, it runs Dijkstra's algorithm
+     * to find the shortest itinerary.
+     */
+    public ArrayList<String> getItinerary() {
+        int graphSize = locations.size();
+        Graph g = new Graph(graphSize);
+        for (Location a: locations) {
+            for (Location b: locations) {
+                if ((a.isFood ^ b.isFood) && !(a.isEquals(b))) {
+                    g.add(a, b, getDistance(a, b));
+                }
+            }
+        }
+        return dijkstra(g);
+    }
+
+    /**
+     * Takes in a graph and applies Dijkstra's algorithm.
+     * @param graph
+     */
+    public ArrayList<String> dijkstra(Graph graph) {
+        return null;
+    }
+
+    public void
+    /**
+     * Returns the distance between two coordinates by using the haversine formula
+     * which takes into account the sphreical nature of the earth. The haversine formula
+     * is 2 * radius * arcsine of haversine function.
+     * We make the assumption that travel distance in general is correlated to absolute distance.
+     * @param origin
+     * @param destination
+     */
+    public int getDistance(Location src, Location tgt) {
+        int radius = 3958 //approximate radius in miles of earth near new york
+        double srcLat = Math.toRadians(src.getLatitude());
+        double srcLong = Math.toRadians(src.getLongitude());
+        double tgtLat = Math.toRadians(tgt.getLatitude());
+        double tgtLong = Math.toRadians(tgt.getLongitude());
+        double latTheta = srcLat - tgtLat;
+        double longTheta = srcLong - tgtLong;
+        double havLat = Math.pow(Math.sin(latTheta / 2), 2);
+        double havLong = Math.pow(Math.sin(longTheta / 2), 2);
+        double haversine = Math.sqrt(havLat + Math.cos(srcLat) * Math.cost(tgtLat) * havLong);
+        int distance = 2 * radius * Math.asin(haversine);
+        return distance;
     }
 }
