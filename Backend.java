@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Backend extends JPanel{
 
     private static final String[] FOOD_CATEGORIES = {"Thai", "Mexican", "Italian", "Korean", "Chinese", "American"};
-    private static final String[] ACTIVITY_CATEGORIES = {"Arcade", "Karaoke", "Taking Photos", "Bowling"};
+    private static final String[] ACTIVITY_CATEGORIES = {"Arcade", "Karaoke", "Billiards", "Bowling"};
     private ArrayList<Integer> userFood;
     private ArrayList<Integer> userActivity;
 
@@ -40,19 +40,37 @@ public class Backend extends JPanel{
 
     public void calculate() {
         this.locations = getLocations();
+<<<<<<< HEAD
+=======
+
+//        // debugging
+//        for (Location l : locations) {
+//            String isFood = "";
+//            if (l.isFood()) {
+//                isFood = " is food ";
+//            } else {
+//                isFood = "is activity";
+//            }
+//
+//            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
+//                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
+//                    + l.getLongitude() + "\n");
+//        }
+
+>>>>>>> 222ac156de20da0da76fa42a7e4ffb2f1a0d5e38
     }
 
     /**
-     * Assumptions: 
+     * Assumptions:
      *      We assume that Yelp won't change the layout of their HTML tags in future website updates. Specifically:
-     * 
+     *
      *      The second address tag will always contain the street address of the top Yelp recommendation
      *      The third address tag will always contain the street address of the second best Yelp recommendation
      *      The sibling element of the address tag will always contain the area/county name
      *      The name of the venue will always be in the previous sibling element of the grand parent of the address tag
-     *      
+     *
      *      We will also only consider locations whose address is in an address HTML tag
-     * 
+     *
      * @return An ArrayList with the top two food addresses based on preference
      */
     public ArrayList<Location> getLocations() {
@@ -62,11 +80,11 @@ public class Backend extends JPanel{
         ArrayList<String> userPreferences = new ArrayList<String>();
         for (int i : userFood) {
             userPreferences.add(FOOD_CATEGORIES[i]);
-            System.out.println(FOOD_CATEGORIES[i]);
+//            System.out.println(FOOD_CATEGORIES[i]);
         }
         for (int i : userActivity) {
             userPreferences.add(ACTIVITY_CATEGORIES[i]);
-            System.out.println(ACTIVITY_CATEGORIES[i]);
+//            System.out.println(ACTIVITY_CATEGORIES[i]);
         }
 
         for (String preference : userPreferences) {
@@ -175,7 +193,7 @@ public class Backend extends JPanel{
      * such that only food and activities are neighbors. Then, it runs Dijkstra's algorithm
      * to find the shortest itinerary.
      */
-    public ArrayList<String> getItinerary() {
+    public String getItinerary() {
         ArrayList<String> output = new ArrayList<>();
         int graphSize = locations.size();
         Graph g = new Graph(graphSize);
@@ -190,39 +208,76 @@ public class Backend extends JPanel{
         for (Integer i : dijkOutput) {
             output.add(locations.get(i).getName());
         }
-        return output;
+        return ("Here's your optimal route for New York: \n First, you'll go to " +
+                output.get(0) + "\n Then, you'll go to " + output.get(1) + "\n After, head on " +
+                "over to " + output.get(2) + "\n And, end your night at " + output.get(3));
     }
 
 
     /**
-     * Takes in a graph and applies Dijkstra's algorithm.
+     * Takes in a graph and applies Dijkstra's algorithm with alternating food and activity.
      * @param graph
      */
     public ArrayList<Integer> dijkstra(Graph g) {
+        boolean prevFood = false;
         ArrayList<Integer> output = new ArrayList<>();
         int gSize = locations.size();
         Integer[] dist = new Integer[gSize];
-        PriorityQueue<Integer, Integer> q = new PriorityQueue<>();
+        PriorityQueue<Integer, Integer> f = new PriorityQueue<>();
+        PriorityQueue<Integer, Integer> a = new PriorityQueue<>();
 
         for (int i = 0; i < gSize; i++) {
             dist[i] = Integer.MAX_VALUE;
-            q.add(dist[i], i);
+            if (locations.get(i).isFood()) {
+                f.add(dist[i], i);
+            } else {
+                a.add(dist[i], i);
+            }
         }
 
         dist[0] = 0;
-        q.decreaseKey(0, 0);
-        output.add(0);
 
-        while (!q.isEmpty()) {
-            int u = q.extractMin().value;
-            output.add(u);
-            for (Integer v : g.outNeighbors(u)) {
-                if (dist[v] > (dist[u] + g.getWeight(u, v)) && dist[u] != Integer.MAX_VALUE ) {
-                    dist[v] = dist[u] + g.getWeight(u, v);
-                    q.decreaseKey(v, dist[v]);
+        if (locations.get(0).isFood()) {
+            f.decreaseKey(0, 0);
+            prevFood = true;
+        } else {
+            a.decreaseKey(0, 0);
+            prevFood = false;
+        }
+
+        while (output.size() < 4) {
+            if (prevFood) {
+                prevFood = !prevFood;
+                int u = f.extractMin().value;
+                output.add(u);
+                for (Integer v : g.outNeighbors(u)) {
+                    if (dist[v] > (dist[u] + g.getWeight(u, v))) {
+                        dist[v] = dist[u] + g.getWeight(u, v);
+                        if (locations.get(v).isFood()) {
+                            f.decreaseKey(v, dist[v]);
+                        } else {
+                            a.decreaseKey(v, dist[v] );
+                        }
+                    }
+                }
+            }
+            else {
+                prevFood = !prevFood;
+                int u = a.extractMin().value;
+                output.add(u);
+                for (Integer v : g.outNeighbors(u)) {
+                    if (dist[v] > (dist[u] + g.getWeight(u, v))) {
+                        dist[v] = dist[u] + g.getWeight(u, v);
+                        if (locations.get(v).isFood()) {
+                            f.decreaseKey(v, dist[v]);
+                        } else {
+                            a.decreaseKey(v, dist[v] );
+                        }
+                    }
                 }
             }
         }
+
         return output;
     }
 

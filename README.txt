@@ -21,7 +21,10 @@ Categories:
 	considered. In order to alternate between cuisine and activities, edges are only added when the
 	type of the event (meal or activity) are different.
 	We built off of an external library for the graph and priority queue structures, but made
-	Dijkstra's from scratch based on the logic discussed in lecture 5.
+	Dijkstra's from scratch based on the logic discussed in lecture 5. Specifically, we utilize two
+	priority queues in our Dijkstra implementation to account for alternating inputs, which is a
+	completely different implementation from those used in other classes or for more general
+	Dijkstra implementations.
 
 	Assumptions: We assume that distance will always be positive for Dijkstra's to work, and assume
 	that travel distance is correlated to absolute distance.
