@@ -1,4 +1,9 @@
 Team Members: Scott Klein, Joseph Lee, Daniel Duan
 
 Project Name: Night in New York 
-Project Description: The goal of our project is to 
+
+Project Description: Our program will generate an itinerary for users looking to explore New York City based on their food preferences and activity preferences. After selecting what type of cuisine they enjoy (Thai, Mexican, [blah blah blah]) and what activities they like (Arcade, Karaoke, [blah blah blah]), our program scrapes Yelp to search for the Web's top two recommended venues for each cuisine and each activity. We then use Dijkstra's Algorithm to return the shortest possible route going through these venues. We present these results to our user, crafting their perfect itinerary for a night in New York!
+
+Categories: 
+	1. Graph and graph algorithms: [Scott]
+	2. Document Search (aka Information Retrieval): We used JSoup to scrape Yelp in order to retrieve the addresses of the 
