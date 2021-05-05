@@ -40,24 +40,6 @@ public class Backend extends JPanel{
 
     public void calculate() {
         this.locations = getLocations();
-<<<<<<< HEAD
-=======
-
-//        // debugging
-//        for (Location l : locations) {
-//            String isFood = "";
-//            if (l.isFood()) {
-//                isFood = " is food ";
-//            } else {
-//                isFood = "is activity";
-//            }
-//
-//            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
-//                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
-//                    + l.getLongitude() + "\n");
-//        }
-
->>>>>>> 222ac156de20da0da76fa42a7e4ffb2f1a0d5e38
     }
 
     /**
@@ -89,7 +71,11 @@ public class Backend extends JPanel{
 
         for (String preference : userPreferences) {
 
-            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "&find_loc=New%20York%2C%20NY%2010035";
+            System.out.println(preference);
+
+            // https://www.yelp.com/search?find_desc=Mexican&find_near=new-york-city-new-york-14
+
+            this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "%find__near=new-york-city-new-york-14";
             try {
                 this.currentDoc = Jsoup.connect(this.baseURL).get();
             } catch (IOException e) {
