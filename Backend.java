@@ -2,8 +2,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import com.sun.jdi.Location;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,7 +32,7 @@ public class Backend extends JPanel{
     private ArrayList<Integer> userFood;
     private ArrayList<Integer> userActivity;
 
-    private ArrayList<Location> finalLocations;
+    private ArrayList<Location> locations;
 
     // web scraping tools
     private String baseURL; 
@@ -43,7 +41,6 @@ public class Backend extends JPanel{
     public Backend (){
         userFood = new ArrayList<Integer>();
         userActivity = new ArrayList<Integer>();
-        finalLocations = new ArrayList<Location>();
     }
     
     public void setUserFood (int foodCategory) {
@@ -56,16 +53,11 @@ public class Backend extends JPanel{
     
     public void calculate() {
 
-        ArrayList<String> addresses = getAddresses();
+        this.locations = getLocations();
 
-        // ArrayList<String> foodAddresses = getFoodAddresses();
-        // foodAddresses.addAll(getActivityAddresses());        
-
-        // for (String address : foodAddresses) {
-        //     Double[] coordinateArr = getCoordinates(address);
-        //     Location loc = new Location(coordinateArr[1], coordinateArr[0], address);
-        //     finalLocations.add(loc);
-        // }
+        for (Location l : locations) {
+            System.out.print(l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = " + l.getLongitude() + "\n");
+        }
 
     }
 
@@ -75,9 +67,9 @@ public class Backend extends JPanel{
      *      Only consider locations whose address is in an address html tag
      * @return An ArrayList with the top two food addresses based on preference
      */
-    public ArrayList<String> getAddresses() {
+    public ArrayList<Location> getLocations() {
 
-        ArrayList<String> addresses = new ArrayList<String>();
+        ArrayList<Location> l = new ArrayList<Location>();
 
         ArrayList<String> userPreferences = new ArrayList<String>();
         for (int i : userFood) {
@@ -104,28 +96,32 @@ public class Backend extends JPanel{
             // neighbor of address tag contains the area name
             Element address2 = address1.nextElementSibling();
 
-            String firstRecommendation = address1.text() + ", " + address2.text();
-            addresses.add(firstRecommendation);
+            String firstAddress = address1.text() + ", " + address2.text();
 
-            // Double[] test = getCoordinates(str1);
-            // System.out.println(test[0]);
-            // System.out.println(test[1]);
+            // call helper function to get array of lat and long values
+            Double[] firstCoordinate = getCoordinates(firstAddress);
+
+            // create new location object based on longitude, latitude, and address name
+            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], firstAddress);
+
 
             // third occurrence of address tag contians the street name of the second recommendation
             Element address3 = currentDoc.select("address").get(2);
             // neighbor of address tag contains area name
             Element address4 = address3.nextElementSibling();
 
-            String secondRecommendation = address3.text() + ", " + address4.text(); 
+            String secondAddress = address3.text() + ", " + address4.text(); 
+            Double[] secondCoordinate = getCoordinates(secondAddress);
 
-            addresses.add(secondRecommendation);
-            System.out.println("First recommendation for " + preference + ": " + firstRecommendation);
-            System.out.println("Second recommendation for " + preference + ": " + secondRecommendation);
+            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], secondAddress);
 
+            l.add(firstLocation);
+            l.add(secondLocation);
 
         }
 
-        return addresses;
+        return l;
+
     }
 
     public ArrayList<String> getActivityAddresses() {
