@@ -51,7 +51,9 @@ public class Backend extends JPanel{
                 isFood = "is activity";
             }
 
-            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood + l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = " + l.getLongitude() + "\n");
+            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
+                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
+                    + l.getLongitude() + "\n");
         }
 
     }
@@ -237,8 +239,9 @@ public class Backend extends JPanel{
     public void
     /**
      * Returns the distance between two coordinates by using the haversine formula
-     * which takes into account the sphreical nature of the earth. The haversine formula
-     * is 2 * radius * arcsine of haversine function.
+     * which takes into account the sphreical nature of the earth. This allows for a more
+     * accurate distance, even at small distances. The haversine formula is 2 * radius * arcsine
+     * of haversine function.
      * We make the assumption that travel distance in general is correlated to absolute distance.
      * @param origin
      * @param destination
