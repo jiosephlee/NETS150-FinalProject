@@ -187,18 +187,17 @@ public class Backend extends JPanel{
     public ArrayList<String> getItinerary() {
         ArrayList<String> output = new ArrayList<>();
         int graphSize = locations.size();
-        int[][] g = new int[locations.size()][locations.size()];
+        Graph g = new Graph(graphSize);
         for (Location a: locations) {
             for (Location b: locations) {
-                if ((a.isFood ^ b.isFood) && !(a.isEquals(b))) {
-                    g[locations.get(a)][locations.get(b)] = getDistance(a, b);
-                    g[locations.get(b)][locations.get(a)] = getDistance(b, a);
+                if ((a.isFood() ^ b.isFood()) && !(a.equals(b))) {
+                    g.addEdge(locations.indexOf(a), locations.indexOf(b), getDistance(a, b));
                 }
             }
         }
         ArrayList<Integer> dijkOutput = dijkstra(g);
         for (Integer i : dijkOutput) {
-            output.add(locations.get(i));
+            output.add(locations.get(i).getActivityName());
         }
         return output;
     }
@@ -236,7 +235,6 @@ public class Backend extends JPanel{
         return output;
     }
 
-    public void
     /**
      * Returns the distance between two coordinates by using the haversine formula
      * which takes into account the sphreical nature of the earth. This allows for a more
@@ -247,7 +245,7 @@ public class Backend extends JPanel{
      * @param destination
      */
     public int getDistance(Location src, Location tgt) {
-        int radius = 3958 //approximate radius in miles of earth near new york
+        int radius = 3958; //approximate radius in miles of earth near New York
         double srcLat = Math.toRadians(src.getLatitude());
         double srcLong = Math.toRadians(src.getLongitude());
         double tgtLat = Math.toRadians(tgt.getLatitude());
@@ -256,8 +254,8 @@ public class Backend extends JPanel{
         double longTheta = srcLong - tgtLong;
         double havLat = Math.pow(Math.sin(latTheta / 2), 2);
         double havLong = Math.pow(Math.sin(longTheta / 2), 2);
-        double haversine = Math.sqrt(havLat + Math.cos(srcLat) * Math.cost(tgtLat) * havLong);
-        int distance = 2 * radius * Math.asin(haversine);
+        double haversine = Math.sqrt(havLat + Math.cos(srcLat) * Math.cos(tgtLat) * havLong);
+        int distance = (int) (2 * radius * Math.asin(haversine));
         return distance;
     }
 }
