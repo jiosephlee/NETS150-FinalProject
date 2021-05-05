@@ -84,7 +84,6 @@ public class Backend extends JPanel{
         for (String preference : userPreferences) {
 
             this.baseURL = "https://www.yelp.com/search?find_desc=" + preference + "&find_loc=New%20York%2C%20NY%2010035";
-            // this.baseURL = "https://www.yelp.com/search?find_desc=thai&find_near=new-york-city-new-york-14&ns=1";
             try {
                 this.currentDoc = Jsoup.connect(this.baseURL).get();
             } catch (IOException e) {
