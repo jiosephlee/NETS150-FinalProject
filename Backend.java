@@ -39,23 +39,7 @@ public class Backend extends JPanel{
     }
 
     public void calculate() {
-
         this.locations = getLocations();
-
-        // debugging
-        for (Location l : locations) {
-            String isFood = "";
-            if (l.isFood()) {
-                isFood = " is food ";
-            } else {
-                isFood = "is activity";
-            }
-
-            System.out.print("Activity: " + l.getActivityName() + " " + l.getName() + isFood +
-                    l.getAddress() + " at latitude = " + l.getLatitude() + " and longitude = "
-                    + l.getLongitude() + "\n");
-        }
-
     }
 
     /**
@@ -112,6 +96,7 @@ public class Backend extends JPanel{
             Element parentDiv1 = address1.parent();
             Element parentDiv2 = parentDiv1.parent();
             Element firstVenueLocation = parentDiv2.previousElementSibling();
+            String firstVenueName = firstVenueLocation.selectFirst("a").text();
 
             String firstAddress = address1.text() + ", " + address2.text();
 
@@ -119,7 +104,8 @@ public class Backend extends JPanel{
             Double[] firstCoordinate = getCoordinates(firstAddress);
 
             // create new location object based on longitude, latitude, and address name
-            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], firstAddress, firstVenueLocation.text(), isFood, preference);
+            Location firstLocation = new Location(firstCoordinate[1], firstCoordinate[0], 
+            firstAddress, firstVenueName, isFood, preference);
 
 
             // third occurrence of address tag contians the street name of the second recommendation
@@ -130,11 +116,13 @@ public class Backend extends JPanel{
             Element parentDiv3 = address3.parent();
             Element parentDiv4 = parentDiv3.parent();
             Element secondVenueLocation = parentDiv4.previousElementSibling();
+            String secondVenueName = secondVenueLocation.selectFirst("a").text();
 
             String secondAddress = address3.text() + ", " + address4.text();
             Double[] secondCoordinate = getCoordinates(secondAddress);
 
-            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], secondAddress, secondVenueLocation.text(), isFood, preference);
+            Location secondLocation = new Location(secondCoordinate[1], secondCoordinate[0], 
+            secondAddress, secondVenueName, isFood, preference);
 
             l.add(firstLocation);
             l.add(secondLocation);
@@ -145,9 +133,12 @@ public class Backend extends JPanel{
 
     }
 
-    public ArrayList<String> getActivityAddresses() {
-        return null;
-    }
+    /**
+     * This method uses the MapQuest API to take in an address and outputs a Double[] containing two elements:
+     * the first element is the latitude and the second element is the longitude. 
+     * @param address
+     * @return Double[] with the latitude and longitude coordinates
+     */
 
     public Double[] getCoordinates(String address) {
         String URL = "http://mapquestapi.com/geocoding/v1/address?"
