@@ -8,13 +8,13 @@ import javax.swing.*;
 
 /**
  * This class sets up the top-level frame and widgets for the GUI.
- * 
+ *
  * This game adheres to a Model-View-Controller design framework. This framework
  * is very effective for turn-based games. We STRONGLY recommend you review
  * these lecture slides, starting at slide 8, for more details on
  * Model-View-Controller:
  * https://www.seas.upenn.edu/~cis120/current/files/slides/lec37.pdf
- * 
+ *
  * In a Model-View-Controller framework, Game initializes the view, implements a
  * bit of controller functionality through the reset button, and then
  * instantiates a GameBoard. The GameBoard will handle the rest of the game's
@@ -31,19 +31,19 @@ public class GraphicMain implements Runnable {
         frame.setLocation(300, 300);
         BoxLayout boxlayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(boxlayout);
-        
+
         // Instructions
         JOptionPane.showMessageDialog(frame,
                 "Hi! Welcome to our App: Perfect Day in NYC\n"
                 + "Let us first ask some of your preferences!",
                 "Instructions", JOptionPane.INFORMATION_MESSAGE);
-        
+
         // Instructions
         final JPanel instructions_panel = new JPanel();
         frame.add(instructions_panel);
         final JLabel instructions = new JLabel("Please select your favorites for each category!");
         instructions_panel.add(instructions);
-        
+
         // Food Categories Panel
         final JPanel status_panel = new JPanel();
         frame.add(status_panel);
@@ -57,32 +57,71 @@ public class GraphicMain implements Runnable {
         final JButton thai = new JButton("Thai");
         thai.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                engine.setUserFood(1);
+                engine.setUserFood(0);
                 thai.setEnabled(false);
             }
         });
-        status_panel.add(thai); 
-        //First Food Category
+        status_panel.add(thai);
+        //Second Food Category
         final JButton mexican = new JButton("Mexican");
         mexican.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                engine.setUserFood(2);
+                engine.setUserFood(1);
                 mexican.setEnabled(false);
             }
         });
-        status_panel.add(mexican); 
-        
+        status_panel.add(mexican);
+        //Third Food Category
+        final JButton italian = new JButton("Italian");
+        italian.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserFood(2);
+                italian.setEnabled(false);
+            }
+        });
+        status_panel.add(italian);
+
+        //Fourth Food Category
+        final JButton korean = new JButton("Korean");
+        korean.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserFood(3);
+                korean.setEnabled(false);
+            }
+        });
+        status_panel.add(korean);
+
+        //Fifth Food Category
+        final JButton chinese = new JButton("Chinese");
+        chinese.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserFood(4);
+                chinese.setEnabled(false);
+            }
+        });
+        status_panel.add(chinese);
+
+        //Sixth Food Category
+        final JButton american = new JButton("American");
+        american.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserFood(4);
+                american.setEnabled(false);
+            }
+        });
+        status_panel.add(american);
+
         // Activities Panel
         final JPanel activities_panel = new JPanel();
         frame.add(activities_panel);
         final JLabel labelTwo = new JLabel("Activities Categories: ");
         activities_panel.add(labelTwo);
-        
+
         //First Activity Category
         final JButton arcade = new JButton("Arcade");
         arcade.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                engine.setUserActivity(1);
+                engine.setUserActivity(0);
                 arcade.setEnabled(false);
             }
         });
@@ -96,6 +135,24 @@ public class GraphicMain implements Runnable {
             }
         });
         activities_panel.add(karaoke);
+        //Third Activity Category
+        final JButton takingPhotos = new JButton("Taking Photos");
+        takingPhotos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserActivity(2);
+                takingPhotos.setEnabled(false);
+            }
+        });
+        activities_panel.add(takingPhotos);
+        //Fourth Activity Category
+        final JButton bowling = new JButton("Bowling");
+        bowling.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                engine.setUserActivity(3);
+                bowling.setEnabled(false);
+            }
+        });
+        activities_panel.add(bowling);
         //Budget Panel
         final JPanel text_panel = new JPanel();
         frame.add(text_panel);
@@ -111,7 +168,7 @@ public class GraphicMain implements Runnable {
         textField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(frame, 
+                JOptionPane.showMessageDialog(frame,
                         "You entered text:\n" + textField.getText());
             }
         });
@@ -124,9 +181,9 @@ public class GraphicMain implements Runnable {
                 } else {
                     submit.setEnabled(false);
                 }
-            }           
+            }
         });
-        
+
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 engine.calculate();
