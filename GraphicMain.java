@@ -54,11 +54,6 @@ public class GraphicMain implements Runnable {
 
         final JButton submit = new JButton("Submit");
         submit.setEnabled(false);
-        submit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                engine.calculate();
-            }
-        });
         last_panel.add(submit);
 
         // Food Categories Panel
