@@ -183,24 +183,55 @@ public class Backend extends JPanel{
      * to find the shortest itinerary.
      */
     public ArrayList<String> getItinerary() {
+        ArrayList<String> output = new ArrayList<>();
         int graphSize = locations.size();
-        Graph g = new Graph(graphSize);
+        int[][] g = new int[locations.size()][locations.size()];
         for (Location a: locations) {
             for (Location b: locations) {
                 if ((a.isFood ^ b.isFood) && !(a.isEquals(b))) {
-                    g.add(a, b, getDistance(a, b));
+                    g[locations.get(a)][locations.get(b)] = getDistance(a, b);
+                    g[locations.get(b)][locations.get(a)] = getDistance(b, a);
                 }
             }
         }
-        return dijkstra(g);
+        ArrayList<Integer> dijkOutput = dijkstra(g);
+        for (Integer i : dijkOutput) {
+            output.add(locations.get(i));
+        }
+        return output;
     }
+
 
     /**
      * Takes in a graph and applies Dijkstra's algorithm.
      * @param graph
      */
-    public ArrayList<String> dijkstra(Graph graph) {
-        return null;
+    public ArrayList<Integer> dijkstra(Graph g) {
+        ArrayList<Integer> output = new ArrayList<>();
+        int gSize = locations.size();
+        Integer[] dist = new Integer[gSize];
+        PriorityQueue<Integer, Integer> q = new PriorityQueue<>();
+
+        for (int i = 0; i < gSize; i++) {
+            dist[i] = Integer.MAX_VALUE;
+            q.add(dist[i], i);
+        }
+
+        dist[0] = 0;
+        q.decreaseKey(0, 0);
+        output.add(0);
+
+        while (!q.isEmpty()) {
+            int u = q.extractMin().value;
+            output.add(u);
+            for (Integer v : g.outNeighbors(u)) {
+                if (dist[v] > (dist[u] + g.getWeight(u, v)) && dist[u] != Integer.MAX_VALUE ) {
+                    dist[v] = dist[u] + g.getWeight(u, v);
+                    q.decreaseKey(v, dist[v]);
+                }
+            }
+        }
+        return output;
     }
 
     public void
