@@ -34,7 +34,7 @@ public class GraphicMain implements Runnable {
 
         // Instructions
         JOptionPane.showMessageDialog(frame,
-                "Hi! Welcome to our App: Perfect Day in NYC\n"
+                "Hi! Welcome to our App: Perfect Night in NYC\n"
                 + "Let us first ask some of your preferences!",
                 "Instructions", JOptionPane.INFORMATION_MESSAGE);
 
@@ -105,7 +105,7 @@ public class GraphicMain implements Runnable {
         final JButton american = new JButton("American");
         american.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                engine.setUserFood(4);
+                engine.setUserFood(5);
                 american.setEnabled(false);
             }
         });
